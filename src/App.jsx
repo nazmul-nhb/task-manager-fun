@@ -37,35 +37,43 @@ const App = () => {
 	const handlePackageChange = (e) => setPackageType(e.target.value);
 
 	const handleAddTask = () => {
-		if (title.length <= 50 && description.length <= 200 && budget > 0) {
-			if (tasks.length < packages[packageType]) {
-				const task = {
-					id: generateID({
-						timeStamp: false,
-						separator: "",
-						caseOption: "lower",
-					}),
-					title,
-					description,
-					originalBudget: parseFloat(budget),
-					deducted: parseFloat(budget) * 0.1,
-					effectiveBudget: parseFloat(budget) * 0.9,
-					status: "Pending",
-				};
-
-				const newTasks = [...tasks, task];
-				setTasks(newTasks);
-				setItemToStorage("tasks", newTasks);
-				calculateCompletedTasks(newTasks);
-				setTitle("");
-				setDescription("");
-				setBudget("");
-			} else {
-				toast.error(`Limit exceeded for the ${packageType} package!`);
-			}
-		} else {
-			toast.error("Invalid Input!");
+		if (!title || title.length > 50) {
+			return toast.error("Title must be 1-50 characters!");
 		}
+		if (!description || description.length > 200) {
+			return toast.error("Description must be 1-200 characters!");
+		}
+		if (!budget || budget <= 0) {
+			return toast.error("Budget must be a positive number!");
+		}
+		if (tasks.length >= packages[packageType]) {
+			return toast.error(
+				`Limit exceeded for the ${packageType} package!`
+			);
+		}
+
+		const task = {
+			id: generateID({
+				timeStamp: false,
+				separator: "",
+				caseOption: "lower",
+			}),
+			title,
+			description,
+			originalBudget: parseFloat(budget),
+			deducted: parseFloat(budget) * 0.1,
+			effectiveBudget: parseFloat(budget) * 0.9,
+			status: "Pending",
+		};
+
+		const newTasks = [...tasks, task];
+		setTasks(newTasks);
+		setItemToStorage("tasks", newTasks);
+		calculateCompletedTasks(newTasks);
+		toast.success("Task added successfully!");
+		setTitle("");
+		setDescription("");
+		setBudget("");
 	};
 
 	const handleDeleteTask = (id) => {
@@ -73,6 +81,7 @@ const App = () => {
 		setTasks(newTasks);
 		setItemToStorage("tasks", newTasks);
 		calculateCompletedTasks(newTasks);
+		toast.success("Task deleted successfully!");
 	};
 
 	const toggleTaskStatus = (id) => {
@@ -94,6 +103,7 @@ const App = () => {
 		(sum, task) => sum + task.originalBudget,
 		0
 	);
+
 	const totalDeducted = tasks.reduce((sum, task) => sum + task.deducted, 0);
 
 	return (
@@ -132,7 +142,7 @@ const App = () => {
 				</div>
 			</div>
 			<h2 className="text-2xl font-bold mt-10 my-8 text-center">
-				Task List
+				You Have {tasks.length} {tasks.length > 1 ? "Tasks" : "Task"}
 			</h2>
 			<TaskList
 				tasks={tasks}

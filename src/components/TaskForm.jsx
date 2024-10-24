@@ -10,36 +10,65 @@ const TaskForm = ({
 	onBudgetChange,
 	onAddTask,
 }) => {
+	// Calculate remaining characters for title and description
+	const titleMaxChars = 50;
+	const descriptionMaxChars = 200;
+	const titleCharsLeft = titleMaxChars - title.length;
+	const descriptionCharsLeft = descriptionMaxChars - description.length;
+
 	return (
 		<div className="bg-slate-200 p-6 border rounded-lg shadow-md shadow-slate-700">
 			<h3 className="text-lg font-semibold mb-4">Add a New Task</h3>
+
+			{/* Task Title Input */}
 			<div className="mb-4">
 				<label className="block mb-2 text-sm font-medium">
-					Task Title (max 50 chars):
+					Task Title (max {titleMaxChars} chars):
 				</label>
 				<input
 					type="text"
 					value={title}
 					onChange={onTitleChange}
-					maxLength="50"
+					maxLength={titleMaxChars}
 					className="border border-gray-400 outline-0 p-2 rounded-lg w-full"
 					placeholder="Enter task title"
 				/>
+				{/* Character counter for Task Title */}
+				<p
+					className={`text-sm mt-1 ${
+						titleCharsLeft < 10 ? "text-red-600" : "text-gray-600"
+					}`}
+				>
+					{titleCharsLeft} characters left
+				</p>
 			</div>
 
+			{/* Task Description Input */}
 			<div className="mb-4">
 				<label className="block mb-2 text-sm font-medium">
-					Task Description (max 200 chars):
+					Task Description (max {descriptionMaxChars} chars):
 				</label>
-				<textarea
+                <textarea
+                    id="description"
 					value={description}
 					onChange={onDescriptionChange}
-					maxLength="200"
+					maxLength={descriptionMaxChars}
 					className="border border-gray-400 outline-0 p-2 rounded-lg w-full"
 					placeholder="Enter task description"
 				/>
+				{/* Character counter for Task Description */}
+				<p
+					className={`text-sm mt-1 ${
+						descriptionCharsLeft < 20
+							? "text-red-600"
+							: "text-gray-600"
+					}`}
+				>
+					{descriptionCharsLeft} characters left
+				</p>
 			</div>
 
+			{/* Task Budget Input */}
 			<div className="mb-4">
 				<label className="block mb-2 text-sm font-medium">
 					Task Budget (positive number):
@@ -54,6 +83,7 @@ const TaskForm = ({
 				/>
 			</div>
 
+			{/* Add Task Button */}
 			<button
 				onClick={onAddTask}
 				className="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-all flex items-center gap-2"
