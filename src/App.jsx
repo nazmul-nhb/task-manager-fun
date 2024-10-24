@@ -98,42 +98,48 @@ const App = () => {
 	const totalDeducted = tasks.reduce((sum, task) => sum + task.deducted, 0);
 
 	return (
-		<div className="container mx-auto py-10 px-4">
+		<section className="container mx-auto py-10 px-4">
 			<h1 className="text-3xl font-bold text-center mb-8">
-				Task Management Application
+				Manage Your Tasks
 			</h1>
 
-			<PackageSelector
-				packageType={packageType}
-				onPackageChange={handlePackageChange}
-			/>
-
-			<TaskForm
-				title={title}
-				description={description}
-				budget={budget}
-				onTitleChange={(e) => setTitle(e.target.value)}
-				onDescriptionChange={(e) => setDescription(e.target.value)}
-				onBudgetChange={(e) => setBudget(e.target.value)}
-				onAddTask={handleAddTask}
-			/>
-
+			<div className="flex flex-wrap justify-around">
+				<div className="flex-1">
+					{" "}
+					<PackageSelector
+						packageType={packageType}
+						onPackageChange={handlePackageChange}
+					/>
+				</div>
+				<div className="flex-1">
+					<TaskForm
+						title={title}
+						description={description}
+						budget={budget}
+						onTitleChange={(e) => setTitle(e.target.value)}
+						onDescriptionChange={(e) =>
+							setDescription(e.target.value)
+						}
+						onBudgetChange={(e) => setBudget(e.target.value)}
+						onAddTask={handleAddTask}
+					/>
+				</div>
+				<div className="flex-1">
+					<TaskSummary
+						totalTasks={tasks.length}
+						completedTasks={completedTasks}
+						totalBudget={totalBudget}
+						totalDeducted={totalDeducted}
+					/>
+				</div>
+			</div>
 			<h2 className="text-2xl font-bold mt-10 mb-4">Task List</h2>
 			<TaskList
 				tasks={tasks}
 				toggleTaskStatus={toggleTaskStatus}
 				handleDeleteTask={handleDeleteTask}
 			/>
-
-			<div className="mt-10">
-				<TaskSummary
-					totalTasks={tasks.length}
-					completedTasks={completedTasks}
-					totalBudget={totalBudget}
-					totalDeducted={totalDeducted}
-				/>
-			</div>
-		</div>
+		</section>
 	);
 };
 
