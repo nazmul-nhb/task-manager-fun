@@ -2,18 +2,18 @@ import PropTypes from "prop-types";
 
 const PackageSelector = ({ packageType, onPackageChange }) => {
 	return (
-		<div className="bg-white p-6 rounded-lg shadow-md mb-6">
+		<div className="bg-slate-200 p-6 border border-gray-500 rounded-lg shadow-md shadow-slate-700">
 			<label className="block mb-2 text-sm font-medium">
 				Select Package:
 			</label>
 			<select
 				value={packageType}
 				onChange={onPackageChange}
-				className="border p-2 rounded-lg w-full"
+				className="border border-gray-500 p-2 rounded-lg w-full"
 			>
-				<option value="BASIC">Basic (5 Tasks)</option>
-				<option value="STANDARD">Standard (15 Tasks)</option>
-				<option value="PREMIUM">Premium (30 Tasks)</option>
+				<option value="Basic">Basic (5 Tasks)</option>
+				<option value="Standard">Standard (15 Tasks)</option>
+				<option value="Premium">Premium (30 Tasks)</option>
 			</select>
 		</div>
 	);

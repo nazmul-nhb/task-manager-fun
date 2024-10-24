@@ -7,7 +7,7 @@ const TaskSummary = ({
 	totalDeducted,
 }) => {
 	return (
-		<div className="bg-white p-6 rounded-lg shadow-md">
+		<div className="bg-slate-200 p-6 border border-gray-500 rounded-lg shadow-md shadow-slate-700">
 			<h3 className="text-lg font-semibold mb-4">Summary</h3>
 			<p>Total Tasks Created: {totalTasks}</p>
 			<p>Completed Tasks: {completedTasks}</p>

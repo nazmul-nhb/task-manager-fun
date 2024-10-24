@@ -11,7 +11,7 @@ const TaskForm = ({
 	onAddTask,
 }) => {
 	return (
-		<div className="bg-white p-6 rounded-lg shadow-md">
+		<div className="bg-slate-200 p-6 border border-gray-500 rounded-lg shadow-md shadow-slate-700">
 			<h3 className="text-lg font-semibold mb-4">Add a New Task</h3>
 			<div className="mb-4">
 				<label className="block mb-2 text-sm font-medium">
@@ -22,7 +22,7 @@ const TaskForm = ({
 					value={title}
 					onChange={onTitleChange}
 					maxLength="50"
-					className="border p-2 rounded-lg w-full"
+					className="border border-gray-500 outline-0 p-2 rounded-lg w-full"
 					placeholder="Enter task title"
 				/>
 			</div>
@@ -35,7 +35,7 @@ const TaskForm = ({
 					value={description}
 					onChange={onDescriptionChange}
 					maxLength="200"
-					className="border p-2 rounded-lg w-full"
+					className="border border-gray-500 outline-0 p-2 rounded-lg w-full"
 					placeholder="Enter task description"
 				/>
 			</div>
@@ -49,7 +49,7 @@ const TaskForm = ({
 					value={budget}
 					onChange={onBudgetChange}
 					min="0"
-					className="border p-2 rounded-lg w-full"
+					className="border border-gray-500 outline-0 p-2 rounded-lg w-full"
 					placeholder="Enter task budget"
 				/>
 			</div>

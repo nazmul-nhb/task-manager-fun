@@ -5,15 +5,16 @@ import PackageSelector from "./components/PackageSelector";
 import TaskSummary from "./components/TaskSummary";
 import TaskList from "./components/TaskList";
 import { generateID } from "@nazmul-nhb/id-generator";
+import toast from "react-hot-toast";
 
-const PACKAGES = {
-	BASIC: 5,
-	STANDARD: 15,
-	PREMIUM: 30,
+const packages = {
+	Basic: 5,
+	Standard: 15,
+	Premium: 30,
 };
 
 const App = () => {
-	const [packageType, setPackageType] = useState("BASIC");
+	const [packageType, setPackageType] = useState("Basic");
 	const [tasks, setTasks] = useState([]);
 	const [title, setTitle] = useState("");
 	const [description, setDescription] = useState("");
@@ -37,7 +38,7 @@ const App = () => {
 
 	const handleAddTask = () => {
 		if (title.length <= 50 && description.length <= 200 && budget > 0) {
-			if (tasks.length < PACKAGES[packageType]) {
+			if (tasks.length < packages[packageType]) {
 				const task = {
 					id: generateID({
 						timeStamp: false,
@@ -60,12 +61,10 @@ const App = () => {
 				setDescription("");
 				setBudget("");
 			} else {
-				alert(
-					`You've reached the limit for the ${packageType} package`
-				);
+				toast.error(`Limit exceeded for the ${packageType} package!`);
 			}
 		} else {
-			alert("Please ensure all fields meet the specified criteria");
+			toast.error("Invalid Input!");
 		}
 	};
 
@@ -103,15 +102,14 @@ const App = () => {
 				Manage Your Tasks
 			</h1>
 
-			<div className="flex flex-wrap justify-around">
-				<div className="flex-1">
-					{" "}
+			<div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+				<div>
 					<PackageSelector
 						packageType={packageType}
 						onPackageChange={handlePackageChange}
 					/>
 				</div>
-				<div className="flex-1">
+				<div>
 					<TaskForm
 						title={title}
 						description={description}
@@ -133,7 +131,9 @@ const App = () => {
 					/>
 				</div>
 			</div>
-			<h2 className="text-2xl font-bold mt-10 mb-4">Task List</h2>
+			<h2 className="text-2xl font-bold mt-10 my-8 text-center">
+				Task List
+			</h2>
 			<TaskList
 				tasks={tasks}
 				toggleTaskStatus={toggleTaskStatus}
