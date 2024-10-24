@@ -4,7 +4,7 @@ import { FiTrash2, FiCheckSquare, FiSquare } from "react-icons/fi";
 const Task = ({ task, toggleTaskStatus, handleDeleteTask }) => {
 	return (
 		<div
-			className={`bg-slate-200 p-6 border rounded-lg shadow-md transition-all duration-500 transform hover:scale-105 ${
+			className={`p-6 border rounded-lg shadow-md transition-all duration-500 transform hover:scale-105 ${
 				task.status === "Completed"
 					? "bg-green-100 shadow-green-800"
 					: "bg-red-100 shadow-red-700"
