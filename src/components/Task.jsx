@@ -4,27 +4,57 @@ import { FiTrash2, FiCheckSquare, FiSquare } from "react-icons/fi";
 const Task = ({ task, toggleTaskStatus, handleDeleteTask }) => {
 	return (
 		<div
-			className={`bg-white p-6 rounded-lg shadow-md ${
-				task.status === "Completed" ? "bg-green-100" : ""
+			className={`bg-slate-200 p-6 border rounded-lg shadow-md transition-all duration-500 transform hover:scale-105 ${
+				task.status === "Completed"
+					? "bg-green-100 shadow-green-800"
+					: "bg-red-100 shadow-red-700"
 			}`}
 		>
-			<div className="flex justify-between items-center">
+			<div className="flex justify-between items-start">
 				<div>
-					<h4 className="font-bold mb-2">{task.title}</h4>
-					<p className="text-sm mb-1">{task.description}</p>
-					<p className="text-sm">Budget: ${task.originalBudget}</p>
-					<p className="text-sm">Deducted: ${task.deducted}</p>
-					<p className="text-sm">
-						Effective: ${task.effectiveBudget}
+					<h4 className="font-bold text-xl mb-2">{task.title}</h4>
+					<p className="text-sm text-gray-600 mb-2">
+						{task.description}
 					</p>
-					<p className="text-sm font-semibold">
-						Status: {task.status}
-					</p>
+					<div className="text-sm font-medium">
+						<p>
+							Budget:{" "}
+							<span className="text-blue-500">
+								${task.originalBudget}
+							</span>
+						</p>
+						<p>
+							Deducted:{" "}
+							<span className="text-red-500">
+								${task.deducted}
+							</span>
+						</p>
+						<p>
+							Effective:{" "}
+							<span className="text-green-500">
+								${task.effectiveBudget}
+							</span>
+						</p>
+						<p
+							className={`font-semibold mt-2 ${
+								task.status === "Completed"
+									? "text-green-600"
+									: "text-red-600"
+							}`}
+						>
+							Status: {task.status}
+						</p>
+					</div>
 				</div>
-				<div className="flex gap-2">
+
+				<div className="flex gap-3 items-center">
 					<button
 						onClick={() => toggleTaskStatus(task.id)}
-						className="text-green-600"
+						className={`transition-colors duration-300 ${
+							task.status === "Pending"
+								? "text-gray-400 hover:text-blue-500"
+								: "text-green-600 hover:text-green-700"
+						}`}
 					>
 						{task.status === "Pending" ? (
 							<FiSquare size={24} />
@@ -34,7 +64,7 @@ const Task = ({ task, toggleTaskStatus, handleDeleteTask }) => {
 					</button>
 					<button
 						onClick={() => handleDeleteTask(task.id)}
-						className="text-red-600"
+						className="text-red-500 hover:text-red-600 transition-colors duration-300"
 					>
 						<FiTrash2 size={24} />
 					</button>
