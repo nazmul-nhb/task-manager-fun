@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
 import { getItemFromStorage, setItemToStorage } from "./utils/localStorage";
-import Task from "./components/Task";
-import { FiPlusCircle } from "react-icons/fi";
+import TaskForm from "./components/TaskForm";
+import PackageSelector from "./components/PackageSelector";
+import TaskSummary from "./components/TaskSummary";
+import TaskList from "./components/TaskList";
 import { generateID } from "@nazmul-nhb/id-generator";
 
 const PACKAGES = {
@@ -96,88 +98,40 @@ const App = () => {
 	const totalDeducted = tasks.reduce((sum, task) => sum + task.deducted, 0);
 
 	return (
-		<div className="container mx-auto p-4">
-			<h1 className="text-2xl font-bold mb-4">
+		<div className="container mx-auto py-10 px-4">
+			<h1 className="text-3xl font-bold text-center mb-8">
 				Task Management Application
 			</h1>
 
-			<div className="mb-4">
-				<label className="block mb-2">Select Package:</label>
-				<select
-					value={packageType}
-					onChange={handlePackageChange}
-					className="border p-2 rounded"
-				>
-					<option value="BASIC">Basic (5 Tasks)</option>
-					<option value="STANDARD">Standard (15 Tasks)</option>
-					<option value="PREMIUM">Premium (30 Tasks)</option>
-				</select>
-			</div>
+			<PackageSelector
+				packageType={packageType}
+				onPackageChange={handlePackageChange}
+			/>
 
-			<div className="mb-4">
-				<label className="block mb-2">Task Title (max 50 chars):</label>
-				<input
-					type="text"
-					value={title}
-					onChange={(e) => setTitle(e.target.value)}
-					maxLength="50"
-					className="border p-2 rounded w-full"
+			<TaskForm
+				title={title}
+				description={description}
+				budget={budget}
+				onTitleChange={(e) => setTitle(e.target.value)}
+				onDescriptionChange={(e) => setDescription(e.target.value)}
+				onBudgetChange={(e) => setBudget(e.target.value)}
+				onAddTask={handleAddTask}
+			/>
+
+			<h2 className="text-2xl font-bold mt-10 mb-4">Task List</h2>
+			<TaskList
+				tasks={tasks}
+				toggleTaskStatus={toggleTaskStatus}
+				handleDeleteTask={handleDeleteTask}
+			/>
+
+			<div className="mt-10">
+				<TaskSummary
+					totalTasks={tasks.length}
+					completedTasks={completedTasks}
+					totalBudget={totalBudget}
+					totalDeducted={totalDeducted}
 				/>
-			</div>
-
-			<div className="mb-4">
-				<label className="block mb-2">
-					Task Description (max 200 chars):
-				</label>
-				<textarea
-					value={description}
-					onChange={(e) => setDescription(e.target.value)}
-					maxLength="200"
-					className="border p-2 rounded w-full"
-				/>
-			</div>
-
-			<div className="mb-4">
-				<label className="block mb-2">
-					Task Budget (must be positive):
-				</label>
-				<input
-					type="number"
-					value={budget}
-					onChange={(e) => setBudget(e.target.value)}
-					min="0"
-					className="border p-2 rounded w-full"
-				/>
-			</div>
-
-			<button
-				onClick={handleAddTask}
-				className="bg-blue-500 text-white p-2 rounded flex items-center gap-2"
-			>
-				<FiPlusCircle size={20} />
-				Add Task
-			</button>
-
-			<h2 className="text-xl font-bold mt-6">Task List</h2>
-
-			<ul className="mt-4">
-				{tasks.map((task) => (
-					<Task
-						key={task.id}
-						task={task}
-						toggleTaskStatus={toggleTaskStatus}
-						handleDeleteTask={handleDeleteTask}
-					/>
-				))}
-			</ul>
-			{/* Summary */}
-			<div className="mt-6">
-				<h2 className="text-xl font-bold">Summary</h2>
-				<p>Total Tasks Created: {tasks.length}</p>
-				<p>Completed Tasks: {completedTasks}</p>
-				<p>Total Budget: ${totalBudget}</p>
-				<p>Total Deducted: ${totalDeducted}</p>
-				<p>Remaining Budget: ${totalBudget - totalDeducted}</p>
 			</div>
 		</div>
 	);
