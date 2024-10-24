@@ -22,10 +22,15 @@ const TaskForm = ({
 
 			{/* Task Title Input */}
 			<div className="mb-4">
-				<label className="block mb-2 text-sm font-medium">
+				<label
+					htmlFor="title"
+					className="block mb-2 text-sm font-medium"
+				>
 					Task Title (max {titleMaxChars} chars):
 				</label>
 				<input
+					id="title"
+					name="title"
 					type="text"
 					value={title}
 					onChange={onTitleChange}
@@ -45,11 +50,15 @@ const TaskForm = ({
 
 			{/* Task Description Input */}
 			<div className="mb-4">
-				<label className="block mb-2 text-sm font-medium">
+				<label
+					htmlFor="description"
+					className="block mb-2 text-sm font-medium"
+				>
 					Task Description (max {descriptionMaxChars} chars):
 				</label>
-                <textarea
-                    id="description"
+				<textarea
+					id="description"
+					name="description"
 					value={description}
 					onChange={onDescriptionChange}
 					maxLength={descriptionMaxChars}
@@ -70,10 +79,15 @@ const TaskForm = ({
 
 			{/* Task Budget Input */}
 			<div className="mb-4">
-				<label className="block mb-2 text-sm font-medium">
+				<label
+					htmlFor="budget"
+					className="block mb-2 text-sm font-medium"
+				>
 					Task Budget (positive number):
 				</label>
 				<input
+					id="budget"
+					name="budget"
 					type="number"
 					value={budget}
 					onChange={onBudgetChange}
