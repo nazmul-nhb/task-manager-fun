@@ -1,5 +1,8 @@
 import { useState, useEffect } from "react";
 import { getItemFromStorage, setItemToStorage } from "./utils/localStorage";
+import Task from "./components/Task";
+import { FiPlusCircle } from "react-icons/fi";
+import { generateID } from "@nazmul-nhb/id-generator";
 
 const PACKAGES = {
 	BASIC: 5,
@@ -34,6 +37,11 @@ const App = () => {
 		if (title.length <= 50 && description.length <= 200 && budget > 0) {
 			if (tasks.length < PACKAGES[packageType]) {
 				const task = {
+					id: generateID({
+						timeStamp: false,
+						separator: "",
+						caseOption: "lower",
+					}),
 					title,
 					description,
 					originalBudget: parseFloat(budget),
@@ -59,17 +67,23 @@ const App = () => {
 		}
 	};
 
-	const handleDeleteTask = (index) => {
-		const newTasks = tasks.filter((_, i) => i !== index);
+	const handleDeleteTask = (id) => {
+		const newTasks = tasks.filter((task) => task.id !== id);
 		setTasks(newTasks);
 		setItemToStorage("tasks", newTasks);
 		calculateCompletedTasks(newTasks);
 	};
 
-	const toggleTaskStatus = (index) => {
-		const newTasks = [...tasks];
-		newTasks[index].status =
-			newTasks[index].status === "Pending" ? "Completed" : "Pending";
+	const toggleTaskStatus = (id) => {
+		const newTasks = tasks.map((task) =>
+			task.id === id
+				? {
+						...task,
+						status:
+							task.status === "Pending" ? "Completed" : "Pending",
+				  }
+				: task
+		);
 		setTasks(newTasks);
 		setItemToStorage("tasks", newTasks);
 		calculateCompletedTasks(newTasks);
@@ -138,45 +152,25 @@ const App = () => {
 
 			<button
 				onClick={handleAddTask}
-				className="bg-blue-500 text-white p-2 rounded"
+				className="bg-blue-500 text-white p-2 rounded flex items-center gap-2"
 			>
+				<FiPlusCircle size={20} />
 				Add Task
 			</button>
 
 			<h2 className="text-xl font-bold mt-6">Task List</h2>
 
 			<ul className="mt-4">
-				{tasks.map((task, index) => (
-					<li
-						key={index}
-						className={`border p-4 mb-2 rounded ${
-							task.status === "Completed" ? "bg-green-100" : ""
-						}`}
-					>
-						<h3 className="font-bold">{task.title}</h3>
-						<p>{task.description}</p>
-						<p>Original Budget: ${task.originalBudget}</p>
-						<p>Authority Deducted: ${task.deducted}</p>
-						<p>Effective Budget: ${task.effectiveBudget}</p>
-						<p>Status: {task.status}</p>
-						<button
-							onClick={() => toggleTaskStatus(index)}
-							className="bg-yellow-500 text-white px-2 py-1 rounded mr-2"
-						>
-							{task.status === "Pending"
-								? "Mark as Completed"
-								: "Mark as Pending"}
-						</button>
-						<button
-							onClick={() => handleDeleteTask(index)}
-							className="bg-red-500 text-white px-2 py-1 rounded"
-						>
-							Delete
-						</button>
-					</li>
+				{tasks.map((task) => (
+					<Task
+						key={task.id}
+						task={task}
+						toggleTaskStatus={toggleTaskStatus}
+						handleDeleteTask={handleDeleteTask}
+					/>
 				))}
 			</ul>
-
+			{/* Summary */}
 			<div className="mt-6">
 				<h2 className="text-xl font-bold">Summary</h2>
 				<p>Total Tasks Created: {tasks.length}</p>
