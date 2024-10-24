@@ -16,7 +16,7 @@ const TaskSummary = ({
 	const remainingBudget = (totalBudget - totalDeducted).toFixed(2);
 
 	return (
-		<div className="bg-slate-200 p-6 border border-gray-300 rounded-lg shadow-md shadow-slate-500 transition-all duration-500 hover:scale-105">
+		<div className="bg-slate-200 p-6 border rounded-lg shadow-md shadow-slate-500 transition-all duration-500 hover:scale-105">
 			<h3 className="text-xl font-semibold mb-4 text-slate-700 flex items-center gap-2">
 				<FiLayers size={24} className="text-blue-500" />
 				Summary
